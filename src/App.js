@@ -1208,6 +1208,13 @@ const App = () => {
   const [lastUpdated, setLastUpdated] = useState('03.12.2025 18:45:00'); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // YENİ: Arama terimi state'i
+
+  // YENİ: Arama filtresi mantığı
+  const filteredTableData = TABLE_DATA.filter(row =>
+    row.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.desc.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const refreshData = () => {
     setIsLoading(true);
@@ -1413,10 +1420,26 @@ const App = () => {
               </div>
             </div>
 
+            {/* YENİ: Arama Çubuğu */}
+            <div className="mb-6">
+              <input
+                type="text"
+                placeholder="Gösterge Ara (Örn: TÜFE, CDS, Borç)"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-150 shadow-sm text-gray-700"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
             {/* Recent Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-800">Son Aciklanan Veriler (Aralik 2025 Raporu)</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {searchTerm 
+                      ? `Arama Sonuçları (${filteredTableData.length})` 
+                      : 'Son Aciklanan Veriler (Aralik 2025 Raporu)'
+                    }
+                  </h3>
                   <div className="flex items-center text-xs text-gray-500 bg-blue-50 px-3 py-1 rounded-full">
                     <HelpCircle size={14} className="mr-1 text-blue-500" />
                     <span className="hidden sm:inline">Detay icin satirlara tiklayiniz</span>
@@ -1434,7 +1457,7 @@ const App = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
-                        {TABLE_DATA.map((row) => (
+                        {filteredTableData.map((row) => (
                           <tr 
                             key={row.id} 
                             className="hover:bg-red-50 hover:cursor-pointer group relative"
@@ -1467,6 +1490,13 @@ const App = () => {
                             </td>
                           </tr>
                         ))}
+                        {filteredTableData.length === 0 && (
+                          <tr>
+                            <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
+                              Aradığınız gösterge bulunamadı.
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                 </div>
