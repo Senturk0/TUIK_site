@@ -7,10 +7,12 @@ import {
 import { 
   Activity, TrendingUp, DollarSign, Percent, RefreshCw, 
   Info, HelpCircle, Briefcase, Factory, Globe, Database, 
-  X, BarChart2, Home, Landmark, ShieldAlert, Zap, Layers, BarChart3, TrendingDown
+  X, BarChart2, Home, Landmark, ShieldAlert, Zap, Layers, 
+  BarChart3, TrendingDown, CreditCard, Wallet, ShoppingCart, 
+  Car, Hammer, Scale, Building2, Users
 } from 'lucide-react';
 
-// --- MOCK VERİLER ---
+// --- MOCK VERİLER (GENEL) ---
 const MOCK_DATA = {
   // TÜİK TÜFE Verisi
   inflation: [
@@ -48,7 +50,6 @@ const MOCK_DATA = {
     { date: '2025-11-26', usd: 42.45, eur: 45.50 }, 
     { date: '2025-12-01', usd: 42.60, eur: 45.75 },
   ],
-  // Yurt İçi ÜFE (Yİ-ÜFE)
   producerPrice: [
     { date: '2024-12', value: 55.20, name: 'Yİ-ÜFE' },
     { date: '2025-01', value: 52.80, name: 'Yİ-ÜFE' },
@@ -64,7 +65,6 @@ const MOCK_DATA = {
     { date: '2025-11', value: 33.80, name: 'Yİ-ÜFE' },
     { date: '2025-12', value: 33.10, name: 'Yİ-ÜFE' }, 
   ],
-  // İstanbul Ticaret Odası (İTO) TÜFE
   itoInflation: [
     { date: '2024-12', value: 46.10, name: 'İTO-TÜFE' },
     { date: '2025-01', value: 43.50, name: 'İTO-TÜFE' },
@@ -114,9 +114,8 @@ const NEW_MOCK_DATA = {
   ]
 };
 
-// --- KRİTİK VERİ SETLERİ ---
+// --- EK VERİ SETLERİ (30+ Veri) ---
 const ADDITIONAL_DATA = {
-  // 1. TCMB Rezervleri
   reserves: [
     { date: '2024-01', gross: 125.0, net: 15.0 },
     { date: '2024-03', gross: 128.5, net: 18.5 },
@@ -131,7 +130,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', gross: 151.5, net: 42.8 },
     { date: '2025-11', gross: 153.0, net: 45.0 },
   ],
-  // 2. CDS Primi
   cds: [
     { date: '2025-01', value: 285 },
     { date: '2025-03', value: 270 },
@@ -140,7 +138,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 248 },
     { date: '2025-11', value: 242 },
   ],
-  // 3. Kredi Hacmi Yıllık Büyümesi
   creditGrowth: [
     { date: '2025-01', value: 35.2 },
     { date: '2025-03', value: 32.1 },
@@ -149,7 +146,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 22.8 },
     { date: '2025-11', value: 20.5 },
   ],
-  // 4. Sanayi Üretim Endeksi
   industrialProduction: [
     { date: '2025-01', value: 132.5 },
     { date: '2025-03', value: 134.2 },
@@ -158,7 +154,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 138.1 },
     { date: '2025-11', value: 139.5 },
   ],
-  // 5. Kısa Vadeli Dış Borç (Kalan Vade)
   shortTermDebt: [
     { date: '2025-01', value: 185.2 },
     { date: '2025-03', value: 182.5 },
@@ -167,7 +162,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 174.2 },
     { date: '2025-11', value: 172.5 },
   ],
-  // 6. TCMB Ağırlıklı Ortalama Fonlama Maliyeti (AOFM)
   weightedAverageFundingCost: [
     { date: '2025-01', value: 45.0 },
     { date: '2025-03', value: 42.6 },
@@ -176,7 +170,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 39.5 },
     { date: '2025-11', value: 39.0 },
   ],
-  // 7. PMI (Satın Alma Yöneticileri Endeksi)
   pmiIndex: [
     { date: '2025-01', value: 50.8, name: 'PMI' },
     { date: '2025-03', value: 49.5, name: 'PMI' },
@@ -185,7 +178,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 51.5, name: 'PMI' },
     { date: '2025-11', value: 52.1, name: 'PMI' }, 
   ],
-  // 8. Konut Piyasası
   housing: [
     { date: '2025-01', priceIndex: 1050, sales: 85 },
     { date: '2025-03', priceIndex: 1080, sales: 92 },
@@ -194,7 +186,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', priceIndex: 1180, sales: 110 },
     { date: '2025-11', priceIndex: 1210, sales: 115 },
   ],
-  // 9. Tüketici Güven Endeksi
   consumerConfidence: [
     { date: '2025-01', value: 72.5 },
     { date: '2025-03', value: 74.2 },
@@ -203,7 +194,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 80.1 },
     { date: '2025-11', value: 81.5 },
   ],
-  // 10. Merkezi Yön. Bütçe Dengesi
   budgetBalance: [
     { date: '2025-01', value: -120.5 },
     { date: '2025-03', value: -95.2 },
@@ -212,7 +202,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: -65.2 },
     { date: '2025-11', value: 25.4 },
   ],
-  // 11. Turizm Verileri
   tourism: [
     { date: '2025-01', revenue: 2.1, visitors: 1.8 },
     { date: '2025-03', revenue: 2.8, visitors: 2.5 },
@@ -221,7 +210,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', revenue: 5.9, visitors: 6.2 },
     { date: '2025-11', revenue: 3.2, visitors: 2.9 },
   ],
-  // 12. Reel Efektif Döviz Kuru (REDK) Endeksi
   realEffectiveExchangeRate: [
     { date: '2025-01', value: 58.5 },
     { date: '2025-03', value: 57.1 },
@@ -230,7 +218,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 59.2 },
     { date: '2025-11', value: 60.1 }, 
   ],
-  // 13. Mevduat Faizi ve Kredi Faizi Makası
   interestRateSpread: [
     { date: '2025-01', deposit: 38.0, credit: 43.5, value: 5.5 },
     { date: '2025-03', deposit: 35.5, credit: 40.8, value: 5.3 },
@@ -239,7 +226,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', deposit: 31.0, credit: 35.0, value: 4.0 },
     { date: '2025-11', deposit: 30.5, credit: 34.3, value: 3.8 },
   ],
-  // 14. Bankacılık Sektörü Takipteki Alacaklar Oranı (NPL)
   nplRatio: [
     { date: '2025-01', value: 1.8 },
     { date: '2025-03', value: 1.9 },
@@ -248,7 +234,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 2.5 },
     { date: '2025-11', value: 2.8 },
   ],
-  // 15. Hizmet Üretici Fiyat Endeksi (HÜFE)
   serviceProducerPriceIndex: [
     { date: '2025-01', value: 98.5 },
     { date: '2025-03', value: 101.2 },
@@ -257,14 +242,12 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 107.0 },
     { date: '2025-11', value: 109.5 },
   ],
-  // 16. Yabancı Ziyaretçi Başına Ortalama Turizm Geliri ($)
   avgTourismRevenuePerVisitor: [
     { date: '2025-Q1', value: 650 },
     { date: '2025-Q2', value: 710 },
     { date: '2025-Q3', value: 755 },
     { date: '2025-Q4', value: 690 },
   ],
-  // 17. İhracatın İthalatı Karşılama Oranı (Altın Hariç)
   exportToImportRatio: [
     { date: '2025-01', value: 72.5 },
     { date: '2025-03', value: 75.8 },
@@ -273,7 +256,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 77.5 },
     { date: '2025-11', value: 78.0 },
   ],
-  // 18. Reel Kesim Güven Endeksi (RKGE)
   realSectorConfidenceIndex: [
     { date: '2025-01', value: 105.2 },
     { date: '2025-03', value: 103.8 },
@@ -282,14 +264,12 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', value: 106.3 },
     { date: '2025-11', value: 108.0 },
   ],
-  // 19. Kapasite Kullanım Oranı (KKR) – İmalat Sanayi Alt Sektör Kırılımı
   kkrSubSector: [
     { date: '2025-01', highTech: 65.0, lowTech: 80.5 },
     { date: '2025-05', highTech: 66.5, lowTech: 79.8 },
     { date: '2025-09', highTech: 68.0, lowTech: 78.5 },
     { date: '2025-11', highTech: 69.5, lowTech: 77.0 },
   ],
-  // 20. Tüketici Kredileri Oranı (DÜZELTİLDİ: Stacked Area Chart için)
   consumerVsNeedsCreditRatio: [
     { date: '2025-01', konut: 25, tasit: 5, ihtyac: 30, diger: 40 }, 
     { date: '2025-03', konut: 24, tasit: 6, ihtyac: 32, diger: 38 },
@@ -298,7 +278,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', konut: 21, tasit: 9, ihtyac: 35, diger: 35 },
     { date: '2025-11', konut: 20, tasit: 10, ihtyac: 36, diger: 34 },
   ],
-  // 21. Mevduat Kompozisyonu (TL/DTA/KKM Payı) - YENİ
   tlVsFxDeposits: [
     { date: '2025-01', TL: 50, DTA: 40, KKM: 10 }, 
     { date: '2025-03', TL: 52, DTA: 35, KKM: 13 },
@@ -307,7 +286,6 @@ const ADDITIONAL_DATA = {
     { date: '2025-09', TL: 60, DTA: 20, KKM: 20 },
     { date: '2025-11', TL: 65, DTA: 15, KKM: 20 },
   ],
-  // YENİ EKLENEN PKA VE RİSK VERİLERİ (Beklenti & Risk Sekmesi için)
   pkaInflation12m: [
     { date: '2025-01', value: 30.5 },
     { date: '2025-05', value: 28.2 },
@@ -346,6 +324,103 @@ const ADDITIONAL_DATA = {
     { date: '2025-05', value: 17.9 },
     { date: '2025-07', value: 18.1 },
   ],
+  weeklyCreditCardSpending: [
+    { date: '17 Eki', value: 185.4 },
+    { date: '24 Eki', value: 192.1 },
+    { date: '31 Eki', value: 188.5 },
+    { date: '7 Kas', value: 195.8 },
+    { date: '14 Kas', value: 202.2 },
+    { date: '21 Kas', value: 215.0 },
+  ],
+  commercialLoanInterest: [
+    { date: '17 Eki', value: 52.5 },
+    { date: '24 Eki', value: 51.8 },
+    { date: '31 Eki', value: 50.5 },
+    { date: '7 Kas', value: 49.2 },
+    { date: '14 Kas', value: 48.5 },
+    { date: '21 Kas', value: 47.8 },
+  ],
+  // --- YENİ EKLENEN 10 VERİ SETİ ---
+  moneySupply: [
+    { date: '2025-01', m1: 4500, m2: 12500, m3: 13200 },
+    { date: '2025-03', m1: 4800, m2: 13100, m3: 13900 },
+    { date: '2025-05', m1: 5200, m2: 13900, m3: 14800 },
+    { date: '2025-07', m1: 5500, m2: 14600, m3: 15600 },
+    { date: '2025-09', m1: 5900, m2: 15400, m3: 16500 },
+    { date: '2025-11', m1: 6200, m2: 16200, m3: 17400 },
+  ],
+  retailSalesIndex: [
+    { date: '2025-01', value: 125.4 },
+    { date: '2025-03', value: 128.1 },
+    { date: '2025-05', value: 131.5 },
+    { date: '2025-07', value: 134.2 },
+    { date: '2025-09', value: 133.8 },
+    { date: '2025-11', value: 136.5 },
+  ],
+  kkmStock: [
+    { date: '2025-01', value: 2.3 },
+    { date: '2025-03', value: 2.1 },
+    { date: '2025-05', value: 1.9 },
+    { date: '2025-07', value: 1.7 },
+    { date: '2025-09', value: 1.5 },
+    { date: '2025-11', value: 1.3 },
+  ],
+  automotiveSales: [
+    { date: '2025-01', value: 75200 },
+    { date: '2025-03', value: 82500 },
+    { date: '2025-05', value: 95400 },
+    { date: '2025-07', value: 88900 },
+    { date: '2025-09', value: 91200 },
+    { date: '2025-11', value: 98500 },
+  ],
+  whiteGoodsSales: [
+    { date: '2025-01', value: 650 },
+    { date: '2025-03', value: 680 },
+    { date: '2025-05', value: 720 },
+    { date: '2025-07', value: 750 },
+    { date: '2025-09', value: 730 },
+    { date: '2025-11', value: 760 },
+  ],
+  constructionCostIndex: [
+    { date: '2025-01', value: 45.2 },
+    { date: '2025-03', value: 43.8 },
+    { date: '2025-05', value: 41.5 },
+    { date: '2025-07', value: 39.8 },
+    { date: '2025-09', value: 38.5 },
+    { date: '2025-11', value: 37.2 },
+  ],
+  termsOfTrade: [
+    { date: '2025-01', value: 85.4 },
+    { date: '2025-03', value: 86.2 },
+    { date: '2025-05', value: 87.5 },
+    { date: '2025-07', value: 88.1 },
+    { date: '2025-09', value: 87.8 },
+    { date: '2025-11', value: 88.5 },
+  ],
+  companyStatistics: [
+    { date: '2025-01', established: 9500, closed: 1200 },
+    { date: '2025-03', established: 10200, closed: 1100 },
+    { date: '2025-05', established: 11500, closed: 1050 },
+    { date: '2025-07', established: 10800, closed: 1150 },
+    { date: '2025-09', established: 12100, closed: 980 },
+    { date: '2025-11', established: 12500, closed: 950 },
+  ],
+  centralGovDebtStock: [
+    { date: '2025-01', domestic: 3500, external: 4200 },
+    { date: '2025-03', domestic: 3650, external: 4350 },
+    { date: '2025-05', domestic: 3800, external: 4500 },
+    { date: '2025-07', domestic: 3950, external: 4650 },
+    { date: '2025-09', domestic: 4100, external: 4800 },
+    { date: '2025-11', domestic: 4250, external: 4950 },
+  ],
+  laborForceParticipation: [
+    { date: '2025-01', value: 53.5 },
+    { date: '2025-03', value: 54.1 },
+    { date: '2025-05', value: 54.8 },
+    { date: '2025-07', value: 55.4 },
+    { date: '2025-09', value: 55.2 },
+    { date: '2025-11', value: 55.8 },
+  ],
 };
 
 
@@ -380,6 +455,19 @@ const DEEP_ANALYSIS_INFO = {
     fxOpenPosition: { title: 'Reel Sektör YP Açık Pozisyon (Milyar $)', icon: ShieldAlert, desc: 'Reel sektörün döviz cinsinden yükümlülüklerinin varlıklarından ne kadar fazla olduğunu gösterir. Yüksek açık pozisyon, kur artışlarında **finansal kırılganlığı** artırır.' },
     householdDebtGdp: { title: 'Hanehalkı Borcunun GSYİH\'ye Oranı (%)', icon: Home, desc: 'Hanehalkı toplam borcunun milli gelire oranını gösterir. Türkiye\'de düşük seyretmesi, sistemik risk açısından olumlu bir tampon oluşturur.' },
     syRatio: { title: 'Bankacılık Sermaye Yeterlilik Rasyosu (SYR, %)', icon: Landmark, desc: 'Bankaların yasal olarak belirlediği riskli varlıklara karşı ne kadar sermaye tuttuğunu gösterir. Yüksek SYR, sektörün şoklara karşı dayanıklılığını gösterir.' },
+    weeklyCreditCardSpending: { title: 'Haftalık Kredi Kartı Harcamaları (Milyar TL)', icon: CreditCard, desc: 'Tüketim talebinin en canlı göstergesidir. Yüksek frekanslı (haftalık) olması nedeniyle, ekonomik aktivitedeki yavaşlamayı veya ısınmayı anlık takip etmeyi sağlar.' },
+    commercialLoanInterest: { title: 'Ticari Kredi Faiz Oranları (Akım, %)', icon: Percent, desc: 'Reel sektör firmalarının bankalardan kullandığı ticari kredilere uygulanan faiz oranıdır. Yatırım maliyetlerini ve finansman koşullarını doğrudan etkiler.' },
+    // --- YENİ EKLENEN AÇIKLAMALAR ---
+    moneySupply: { title: 'Para Arzı (M1, M2, M3) (Milyar TL)', icon: Wallet, desc: 'Ekonomideki toplam para miktarını gösterir. M1 (Nakit + Vadesiz), M2 (M1 + Vadeli Mevduat) ve M3 (M2 + Repo + Fonlar) olarak sınıflandırılır. M3 artış hızı, enflasyonist baskıların öncü göstergesidir.' },
+    retailSalesIndex: { title: 'Perakende Satış Hacim Endeksi', icon: ShoppingCart, desc: 'Mağaza ve online alışverişlerdeki satış miktarının değişimini gösterir. Hanehalkı tüketiminin (büyümenin %60\'ı) en güçlü öncü göstergesidir.' },
+    kkmStock: { title: 'KKM (Kur Korumalı Mevduat) Stoku (Trilyon TL)', icon: Layers, desc: 'Döviz kurundaki artışa karşı korumalı mevduat hesaplarında biriken toplam tutardır. Bu stokun değişimi, TL\'ye olan güven ve potansiyel döviz talebi açısından kritiktir.' },
+    automotiveSales: { title: 'Otomotiv Satışları (Oto + Hafif Ticari) (Adet)', icon: Car, desc: 'Aylık satılan sıfır araç sayısıdır. Kredi iştahı ve tüketici güveninin en hassas göstergesidir. Satış artışı, gelire güveni ve uygun kredi koşullarını işaret eder.' },
+    whiteGoodsSales: { title: 'Beyaz Eşya İç Satışları (Bin Adet)', icon: ShoppingCart, desc: 'Dayanıklı tüketim malları (buzdolabı vb.) satış adedidir. Faiz oranlarına çok duyarlıdır ve ekonomik yavaşlamayı/ısınmayı ilk sinyalleyen kalemlerden biridir.' },
+    constructionCostIndex: { title: 'İnşaat Maliyet Endeksi (Yıllık %)', icon: Hammer, desc: 'İnşaat yapımında kullanılan malzeme ve işçilik maliyetlerindeki artıştır. Konut fiyatlarının en temel belirleyicisi ve enflasyonun yapışkanlığı için öncü göstergedir.' },
+    termsOfTrade: { title: 'Dış Ticaret Hadleri', icon: Scale, desc: 'İhraç edilen malların birim fiyatının, ithal edilen malların birim fiyatına oranıdır. Düşmesi, ülkenin dış ticarette "fakirleştiğini" (daha çok mal verip daha az mal aldığını) gösterir.' },
+    companyStatistics: { title: 'Kurulan ve Kapanan Şirket Sayıları', icon: Building2, desc: 'Reel sektörün dinamizmini gösterir. Kurulan şirket artışı girişimcilik iştahını, kapanan şirket artışı ise ekonomik durgunluk ve iflas risklerini işaret eder.' },
+    centralGovDebtStock: { title: 'Merkezi Yönetim Borç Stoku (Milyar TL)', icon: Landmark, desc: 'Hazinenin piyasaya ve dış dünyaya olan toplam borcudur. Mali disiplinin ana göstergesidir ve ülkenin risk primini (CDS) doğrudan etkiler.' },
+    laborForceParticipation: { title: 'İşgücüne Katılım Oranı (%)', icon: Users, desc: 'Çalışabilir yaştaki nüfusun ne kadarının iş aradığını veya çalıştığını gösterir. Yüksek katılım oranı, sağlıklı bir istihdam piyasasını işaret eder.' },
 };
 
 
@@ -388,7 +476,7 @@ const ChartSection = ({ dataKey, info, children }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-full">
     <div className="flex items-center mb-4 pb-3 border-b border-gray-100">
       <h3 className="text-md font-semibold text-gray-800 flex items-center">
-        <info.icon size={18} className={`mr-2 ${dataKey === 'cds' || dataKey === 'nplRatio' || dataKey === 'fxOpenPosition' ? 'text-red-700' : 'text-indigo-600'}`} />
+        <info.icon size={18} className={`mr-2 ${dataKey === 'cds' || dataKey === 'nplRatio' || dataKey === 'fxOpenPosition' || dataKey === 'constructionCostIndex' ? 'text-red-700' : 'text-indigo-600'}`} />
         {info.title}
         
         {/* TOOLTIP EKLENDİ */}
@@ -549,6 +637,21 @@ const InflationTab = () => (
                     </ResponsiveContainer>
                 </div>
             </div>
+
+            {/* YENİ EKLENEN: İnşaat Maliyet Endeksi */}
+            <div className="h-[300px]">
+                <ChartSection dataKey="constructionCostIndex" info={DEEP_ANALYSIS_INFO.constructionCostIndex}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={ADDITIONAL_DATA.constructionCostIndex}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" tick={{fontSize: 10}} />
+                            <YAxis unit="%" domain={['auto', 'auto']} />
+                            <RechartsTooltip formatter={(value) => [`%${value.toFixed(1)}`, 'Maliyet Artışı']} />
+                            <Line type="monotone" dataKey="value" name="İnşaat Maliyet End." stroke="#b91c1c" strokeWidth={3} />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </ChartSection>
+            </div>
         </div>
 
     </div>
@@ -561,6 +664,8 @@ const BankingTab = () => {
             <h2 className="text-xl font-bold text-gray-900 border-b pb-2 mb-4 flex items-center">
                 <Landmark className="mr-3 text-indigo-700" /> Kredi & Mevduat Analizi
             </h2>
+            
+            {/* 1. Kısım: Genel Kredi ve Mevduat Göstergeleri */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                 {/* Kredi Hacmi Yıllık Büyümesi */}
@@ -576,7 +681,20 @@ const BankingTab = () => {
                     </ResponsiveContainer>
                 </ChartSection>
 
-                {/* Takipteki Alacaklar Oranı (NPL) - Bankacılık Sekmesinde tutuldu */}
+                {/* Ticari Kredi Faizleri */}
+                <ChartSection dataKey="commercialLoanInterest" info={DEEP_ANALYSIS_INFO.commercialLoanInterest}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={ADDITIONAL_DATA.commercialLoanInterest}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" tick={{fontSize: 10}} />
+                            <YAxis unit="%" domain={['auto', 'auto']} />
+                            <RechartsTooltip formatter={(value) => [`%${value.toFixed(1)}`, 'Faiz Oranı']} />
+                            <Line type="monotone" dataKey="value" name="Ticari Kredi Faizi" stroke="#0ea5e9" strokeWidth={3} dot={{r:4}} />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </ChartSection>
+
+                {/* Takipteki Alacaklar Oranı (NPL) */}
                 <ChartSection dataKey="nplRatio" info={DEEP_ANALYSIS_INFO.nplRatio}>
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={ADDITIONAL_DATA.nplRatio} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -589,23 +707,7 @@ const BankingTab = () => {
                     </ResponsiveContainer>
                 </ChartSection>
 
-                {/* Tüketici Kredileri Oranı (DÜZELTİLDİ: Stacked Area Chart) */}
-                <ChartSection dataKey="consumerVsNeedsCreditRatio" info={DEEP_ANALYSIS_INFO.consumerVsNeedsCreditRatio}>
-                    <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={ADDITIONAL_DATA.consumerVsNeedsCreditRatio}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis unit=" %" domain={[0, 100]}/>
-                            <RechartsTooltip />
-                            <Legend />
-                            <Area type="monotone" dataKey="konut" stackId="1" stroke="#3b82f6" fill="#bfdbfe" name="Konut Kredisi (%)" />
-                            <Area type="monotone" dataKey="tasit" stackId="1" stroke="#fb923c" fill="#fed7aa" name="Taşıt Kredisi (%)" />
-                            <Area type="monotone" dataKey="ihtyac" stackId="1" stroke="#dc2626" fill="#fecaca" name="İhtiyaç Kredisi (%)" />
-                        </AreaChart>
-                    </ResponsiveContainer>
-                </ChartSection>
-
-                {/* Mevduat Kompozisyonu (YENİ: TL/DTA/KKM) */}
+                {/* Mevduat Kompozisyonu */}
                 <ChartSection dataKey="tlVsFxDeposits" info={DEEP_ANALYSIS_INFO.tlVsFxDeposits}>
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={ADDITIONAL_DATA.tlVsFxDeposits}>
@@ -620,6 +722,27 @@ const BankingTab = () => {
                         </AreaChart>
                     </ResponsiveContainer>
                 </ChartSection>
+            </div>
+
+            {/* 2. Kısım: Tüketici Kredileri Detayı */}
+            <div className="pt-6 mt-6 border-t border-gray-200">
+                 <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Tüketici Kredileri Dağılımı</h3>
+                 <div className="h-[300px]">
+                    <ChartSection dataKey="consumerVsNeedsCreditRatio" info={DEEP_ANALYSIS_INFO.consumerVsNeedsCreditRatio}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={ADDITIONAL_DATA.consumerVsNeedsCreditRatio}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="date" />
+                                <YAxis unit=" %" domain={[0, 100]}/>
+                                <RechartsTooltip />
+                                <Legend />
+                                <Area type="monotone" dataKey="konut" stackId="1" stroke="#3b82f6" fill="#bfdbfe" name="Konut Kredisi (%)" />
+                                <Area type="monotone" dataKey="tasit" stackId="1" stroke="#fb923c" fill="#fed7aa" name="Taşıt Kredisi (%)" />
+                                <Area type="monotone" dataKey="ihtyac" stackId="1" stroke="#dc2626" fill="#fecaca" name="İhtiyaç Kredisi (%)" />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </ChartSection>
+                 </div>
             </div>
         </div>
     );
@@ -710,6 +833,19 @@ const IndicatorsTab = () => {
                 </ResponsiveContainer>
             </ChartSection>
 
+            {/* Perakende Satış Endeksi (YENİ) */}
+            <ChartSection dataKey="retailSalesIndex" info={DEEP_ANALYSIS_INFO.retailSalesIndex}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={ADDITIONAL_DATA.retailSalesIndex}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis domain={['auto', 'auto']} />
+                        <RechartsTooltip />
+                        <Line type="monotone" dataKey="value" name="Perakende Endeksi" stroke="#16a34a" strokeWidth={3} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </ChartSection>
+
             {/* TCMB AOFM */}
             <ChartSection dataKey="weightedAverageFundingCost" info={DEEP_ANALYSIS_INFO.weightedAverageFundingCost}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -719,6 +855,45 @@ const IndicatorsTab = () => {
                         <YAxis unit="%" domain={['auto', 'auto']} />
                         <RechartsTooltip formatter={(value) => [`%${value.toFixed(2)}`, 'Fonlama Maliyeti']} />
                         <Line type="stepAfter" dataKey="value" name="AOFM (%)" stroke="#7e22ce" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </ChartSection>
+            
+            {/* Otomotiv Satışları (YENİ) */}
+            <ChartSection dataKey="automotiveSales" info={DEEP_ANALYSIS_INFO.automotiveSales}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={ADDITIONAL_DATA.automotiveSales}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis />
+                        <RechartsTooltip />
+                        <Bar dataKey="value" name="Otomotiv Satışı" fill="#f97316" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </ChartSection>
+
+            {/* Beyaz Eşya Satışları (YENİ) */}
+            <ChartSection dataKey="whiteGoodsSales" info={DEEP_ANALYSIS_INFO.whiteGoodsSales}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={ADDITIONAL_DATA.whiteGoodsSales}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis />
+                        <RechartsTooltip />
+                        <Bar dataKey="value" name="Beyaz Eşya (Bin)" fill="#3b82f6" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </ChartSection>
+
+            {/* İşgücüne Katılım Oranı (YENİ) */}
+            <ChartSection dataKey="laborForceParticipation" info={DEEP_ANALYSIS_INFO.laborForceParticipation}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={ADDITIONAL_DATA.laborForceParticipation}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis unit="%" domain={[40, 60]} />
+                        <RechartsTooltip />
+                        <Line type="monotone" dataKey="value" name="Katılım Oranı" stroke="#9333ea" strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
             </ChartSection>
@@ -753,6 +928,50 @@ const DeepAnalysisTab = () => {
             <Landmark className="mr-3 text-indigo-700" /> Finansal İstikrar Metrikleri
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* PARA ARZI (M1, M2, M3) - YENİ VE DETAYLI */}
+            <ChartSection dataKey="moneySupply" info={DEEP_ANALYSIS_INFO.moneySupply}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={ADDITIONAL_DATA.moneySupply}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                  <XAxis dataKey="date" tick={{fontSize: 10}} />
+                  <YAxis domain={['auto', 'auto']} tick={{fontSize: 10}} />
+                  <RechartsTooltip formatter={(value) => [`${value} Mlr TL`]} />
+                  <Legend />
+                  <Line type="monotone" dataKey="m3" name="M3 (Geniş)" stroke="#1e3a8a" strokeWidth={3} />
+                  <Line type="monotone" dataKey="m2" name="M2" stroke="#3b82f6" strokeWidth={2} />
+                  <Line type="monotone" dataKey="m1" name="M1 (Dar)" stroke="#93c5fd" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartSection>
+
+            {/* KKM Stoku (YENİ) */}
+            <ChartSection dataKey="kkmStock" info={DEEP_ANALYSIS_INFO.kkmStock}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={ADDITIONAL_DATA.kkmStock}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis unit=" Trl TL" />
+                        <RechartsTooltip />
+                        <Area type="monotone" dataKey="value" name="KKM Stoku" stroke="#7c3aed" fill="#ddd6fe" />
+                    </AreaChart>
+                </ResponsiveContainer>
+            </ChartSection>
+
+            {/* Merkezi Yönetim Borç Stoku (YENİ) */}
+            <ChartSection dataKey="centralGovDebtStock" info={DEEP_ANALYSIS_INFO.centralGovDebtStock}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={ADDITIONAL_DATA.centralGovDebtStock}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis />
+                        <RechartsTooltip />
+                        <Legend />
+                        <Bar dataKey="domestic" name="İç Borç" stackId="a" fill="#0f766e" />
+                        <Bar dataKey="external" name="Dış Borç" stackId="a" fill="#06b6d4" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </ChartSection>
             
             {/* TCMB Rezervleri */}
             <ChartSection dataKey="reserves" info={DEEP_ANALYSIS_INFO.reserves}>
@@ -852,6 +1071,21 @@ const DeepAnalysisTab = () => {
               </ResponsiveContainer>
             </ChartSection>
 
+            {/* Kurulan/Kapanan Şirketler (YENİ) */}
+            <ChartSection dataKey="companyStatistics" info={DEEP_ANALYSIS_INFO.companyStatistics}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={ADDITIONAL_DATA.companyStatistics}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{fontSize: 10}} />
+                        <YAxis />
+                        <RechartsTooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="established" name="Kurulan" stroke="#16a34a" />
+                        <Line type="monotone" dataKey="closed" name="Kapanan" stroke="#dc2626" />
+                    </LineChart>
+                </ResponsiveContainer>
+            </ChartSection>
+
             {/* KKR Alt Sektör Kırılımı */}
             <ChartSection dataKey="kkrSubSector" info={DEEP_ANALYSIS_INFO.kkrSubSector}>
               <ResponsiveContainer width="100%" height="100%">
@@ -887,7 +1121,7 @@ const DeepAnalysisTab = () => {
           <h2 className="text-xl font-bold text-gray-900 border-b pb-2 mb-4 flex items-center">
             <Home className="mr-3 text-cyan-700" /> Hanehalkı & Tüketim
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Konut Piyasası (Fiyat Endeksi & Satış Adedi) */}
             <ChartSection dataKey="housing" info={DEEP_ANALYSIS_INFO.housing}>
               <ResponsiveContainer width="100%" height="100%">
@@ -917,6 +1151,19 @@ const DeepAnalysisTab = () => {
                 </LineChart>
               </ResponsiveContainer>
             </ChartSection>
+
+            {/* Haftalık Kredi Kartı Harcamaları */}
+            <ChartSection dataKey="weeklyCreditCardSpending" info={DEEP_ANALYSIS_INFO.weeklyCreditCardSpending}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={ADDITIONAL_DATA.weeklyCreditCardSpending}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={['auto', 'auto']} unit=" Mlr TL" />
+                  <RechartsTooltip formatter={(value) => [`${value} Mlr TL`, 'Harcama']} />
+                  <Bar dataKey="value" name="Kart Harcamaları" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartSection>
           </div>
         </div>
         
@@ -926,6 +1173,20 @@ const DeepAnalysisTab = () => {
             <Globe className="mr-3 text-blue-700" /> Dış Ticaret & Kamu Maliyesi
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Dış Ticaret Hadleri (YENİ) */}
+            <ChartSection dataKey="termsOfTrade" info={DEEP_ANALYSIS_INFO.termsOfTrade}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={ADDITIONAL_DATA.termsOfTrade}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis domain={['auto', 'auto']} />
+                        <RechartsTooltip />
+                        <ReferenceLine y={100} stroke="#666" />
+                        <Line type="monotone" dataKey="value" name="Dış Ticaret Hadleri" stroke="#0891b2" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </ChartSection>
 
             {/* İhracat/İthalat Karşılama Oranı (Altın Hariç) */}
             <ChartSection dataKey="exportToImportRatio" info={DEEP_ANALYSIS_INFO.exportToImportRatio}>
