@@ -423,6 +423,157 @@ const ADDITIONAL_DATA = {
   ],
 };
 
+// --- FRED Mock Verileri (20 Serisi) ---
+// NOT: Bu veriler, Java backend'inizden (FredApiFetcher) çekildikten sonra
+// React'ın kullanabileceği bu basit JS nesnesi yapısına dönüştürülmelidir.
+const FRED_MOCK_DATA = {
+  // 1. Ekonomik Büyüme ve Aktivite
+  GDPC1: [
+    { date: '2023-Q1', value: 2.2 }, { date: '2023-Q2', value: 2.5 }, 
+    { date: '2023-Q3', value: 3.1 }, { date: '2023-Q4', value: 1.6 }, 
+    { date: '2024-Q1', value: 1.3 }, { date: '2024-Q2', value: 2.0 }
+  ],
+  GDI: [
+    { date: '2023-Q1', value: 2.5 }, { date: '2023-Q2', value: 2.0 }, 
+    { date: '2023-Q3', value: 2.8 }, { date: '2023-Q4', value: 1.5 }, 
+    { date: '2024-Q1', value: 1.0 }, { date: '2024-Q2', value: 1.9 }
+  ],
+  IPHA: [
+    { date: '2024-01', value: 102.1 }, { date: '2024-03', value: 103.5 }, 
+    { date: '2024-05', value: 104.2 }, { date: '2024-07', value: 104.8 }, 
+    { date: '2024-09', value: 105.1 }, { date: '2024-11', value: 105.5 }
+  ],
+  UMCSENT: [
+    { date: '2024-01', value: 78.8 }, { date: '2024-03', value: 75.1 }, 
+    { date: '2024-05', value: 70.0 }, { date: '2024-07', value: 72.5 }, 
+    { date: '2024-09', value: 73.2 }, { date: '2024-11', value: 74.8 }
+  ],
+  PERMIT: [
+    { date: '2024-01', value: 1550 }, { date: '2024-03', value: 1490 }, 
+    { date: '2024-05', value: 1450 }, { date: '2024-07', value: 1510 }, 
+    { date: '2024-09', value: 1560 }, { date: '2024-11', value: 1580 }
+  ],
+
+  // 2. Enflasyon ve Fiyatlar
+  PCEPI: [
+    { date: '2024-01', value: 3.2 }, { date: '2024-03', value: 3.1 }, 
+    { date: '2024-05', value: 3.0 }, { date: '2024-07', value: 2.8 }, 
+    { date: '2024-09', value: 2.5 }, { date: '2024-11', value: 2.3 }
+  ],
+  PCEPILFE: [
+    { date: '2024-01', value: 2.9 }, { date: '2024-03', value: 2.7 }, 
+    { date: '2024-05', value: 2.6 }, { date: '2024-07', value: 2.4 }, 
+    { date: '2024-09', value: 2.2 }, { date: '2024-11', value: 2.0 }
+  ],
+  CPIAUCSL: [
+    { date: '2024-01', value: 3.5 }, { date: '2024-03', value: 3.4 }, 
+    { date: '2024-05', value: 3.2 }, { date: '2024-07', value: 3.0 }, 
+    { date: '2024-09', value: 2.8 }, { date: '2024-11', value: 2.5 }
+  ],
+  PPIFIS: [
+    { date: '2024-01', value: 4.5 }, { date: '2024-03', value: 4.2 }, 
+    { date: '2024-05', value: 3.8 }, { date: '2024-07', value: 3.5 }, 
+    { date: '2024-09', value: 3.1 }, { date: '2024-11', value: 2.9 }
+  ],
+
+  // 3. İşgücü Piyasası
+  UNRATE: [
+    { date: '2024-01', value: 3.7 }, { date: '2024-03', value: 3.8 }, 
+    { date: '2024-05', value: 3.9 }, { date: '2024-07', value: 3.8 }, 
+    { date: '2024-09', value: 3.9 }, { date: '2024-11', value: 4.0 }
+  ],
+  NFP: [
+    { date: '2024-01', value: 215 }, { date: '2024-03', value: 270 }, 
+    { date: '2024-05', value: 175 }, { date: '2024-07', value: 180 }, 
+    { date: '2024-09', value: 210 }, { date: '2024-11', value: 195 }
+  ],
+  JTSJOL: [
+    { date: '2024-01', value: 8.7 }, { date: '2024-03', value: 8.5 }, 
+    { date: '2024-05', value: 8.2 }, { date: '2024-07', value: 8.0 }, 
+    { date: '2024-09', value: 7.8 }, { date: '2024-11', value: 7.7 }
+  ],
+  AHE: [
+    { date: '2024-01', value: 4.1 }, { date: '2024-03', value: 4.0 }, 
+    { date: '2024-05', value: 3.9 }, { date: '2024-07', value: 3.8 }, 
+    { date: '2024-09', value: 3.7 }, { date: '2024-11', value: 3.6 }
+  ],
+
+  // 4. Faiz Oranları ve Finansal Koşullar
+  DFF: [
+    { date: '2024-01', value: 5.37 }, { date: '2024-03', value: 5.37 }, 
+    { date: '2024-05', value: 5.38 }, { date: '2024-07', value: 5.25 }, 
+    { date: '2024-09', value: 5.00 }, { date: '2024-11', value: 4.75 }
+  ],
+  T10Y2Y: [
+    { date: '2024-01', value: -0.28 }, { date: '2024-03', value: -0.35 }, 
+    { date: '2024-05', value: -0.42 }, { date: '2024-07', value: -0.15 }, 
+    { date: '2024-09', value: 0.10 }, { date: '2024-11', value: 0.25 }
+  ],
+  TEDRATE: [
+    { date: '2024-01', value: 0.40 }, { date: '2024-03', value: 0.35 }, 
+    { date: '2024-05', value: 0.45 }, { date: '2024-07', value: 0.30 }, 
+    { date: '2024-09', value: 0.25 }, { date: '2024-11', value: 0.20 }
+  ],
+  BAMLH0A0CM: [
+    { date: '2024-01', value: 3.2 }, { date: '2024-03', value: 3.5 }, 
+    { date: '2024-05', value: 3.0 }, { date: '2024-07', value: 2.8 }, 
+    { date: '2024-09', value: 2.5 }, { date: '2024-11', value: 2.2 }
+  ],
+  MORTGAGE30US: [
+    { date: '2024-01', value: 6.6 }, { date: '2024-03', value: 6.8 }, 
+    { date: '2024-05', value: 7.1 }, { date: '2024-07', value: 6.9 }, 
+    { date: '2024-09', value: 6.5 }, { date: '2024-11', value: 6.3 }
+  ],
+  WM2NS: [
+    { date: '2024-01', value: 20.8 }, { date: '2024-03', value: 21.0 }, 
+    { date: '2024-05', value: 21.2 }, { date: '2024-07', value: 21.4 }, 
+    { date: '2024-09', value: 21.6 }, { date: '2024-11', value: 21.8 }
+  ],
+  DGS10: [
+    { date: '2024-01', value: 4.10 }, { date: '2024-03', value: 4.25 }, 
+    { date: '2024-05', value: 4.50 }, { date: '2024-07', value: 4.30 }, 
+    { date: '2024-09', value: 4.00 }, { date: '2024-11', value: 3.85 }
+  ],
+  // FED Funds Rate (DFF) ile karşılaştırmak için 2 yıllık Hazine getirisi eklendi (DGS2)
+  DGS2: [
+    { date: '2024-01', value: 4.38 }, { date: '2024-03', value: 4.60 }, 
+    { date: '2024-05', value: 4.92 }, { date: '2024-07', value: 4.45 }, 
+    { date: '2024-09', value: 3.90 }, { date: '2024-11', value: 3.60 }
+  ],
+};
+
+
+// --- FRED Veri Analiz Bilgileri (US Verileri İçin) ---
+const FRED_ANALYSIS_INFO = {
+    // 1. Ekonomik Büyüme ve Aktivite
+    GDPC1: { title: 'Reel GSYİH Büyüme Hızı (Yıllık %)', icon: Factory, unit: '%', isRate: true, desc: 'ABD ekonomisinin üretim gücündeki enflasyondan arındırılmış çeyreklik değişimi. Ekonomik büyümenin ana göstergesidir.' },
+    GDI: { title: 'Gayri Safi Yurtiçi Gelir (Yıllık %)', icon: Landmark, unit: '%', isRate: true, desc: 'Ekonomik aktivitenin gelir tarafını (ücretler, karlar) ölçer. GSYİH ile karşılaştırılarak ekonomik görünüm teyit edilir.' },
+    IPHA: { title: 'Sanayi Üretimi Endeksi (Yıllık Değişim)', icon: Factory, unit: 'Endeks', isRate: false, desc: 'Fabrika ve maden çıktılarındaki aylık değişimi gösterir. Ekonomik döngü için önemli bir erken sinyaldir.' },
+    UMCSENT: { title: 'Michigan Tüketici Güven Endeksi', icon: Home, unit: 'Endeks', isRate: false, desc: 'Tüketicilerin ekonomik beklentilerini ölçer. Tüketici harcamalarının gelecekteki seyrini tahmin etmek için kullanılır.' },
+    PERMIT: { title: 'Yeni Konut İnşaat İzinleri (Bin)', icon: Building2, unit: 'Bin Adet', isRate: false, desc: 'Gelecekteki konut inşaat aktivitesinin öncü göstergesidir. Konut sektörü, ekonomik sağlığın önemli bir parçasıdır.' },
+
+    // 2. Enflasyon ve Fiyatlar
+    PCEPI: { title: 'PCE Fiyat Endeksi (Yıllık %)', icon: TrendingUp, unit: '%', isRate: true, desc: 'FED\'in birincil enflasyon hedefleme ölçütü. Tüketim harcamalarındaki ortalama fiyat değişimini gösterir.' },
+    PCEPILFE: { title: 'Çekirdek PCE (Gıda ve Enerji Hariç, Yıllık %)', icon: TrendingUp, unit: '%', isRate: true, desc: 'Volatil kalemleri dışlayarak enflasyonun temel eğilimini gösterir. FED için en kritik enflasyon göstergesidir.' },
+    CPIAUCSL: { title: 'Tüketici Fiyat Endeksi (TÜFE, Yıllık %)', icon: TrendingUp, unit: '%', isRate: true, desc: 'Hanehalkının ürün sepetindeki fiyat değişimini gösterir. En çok takip edilen enflasyon verisidir.' },
+    PPIFIS: { title: 'Üretici Fiyat Endeksi (ÜFE, Yıllık %)', icon: TrendingUp, unit: '%', isRate: true, desc: 'Üreticilerin mal ve hizmetler için aldığı ortalama fiyat değişimini gösterir. TÜFE için potansiyel bir öncü göstergedir.' },
+    
+    // 3. İşgücü Piyasası
+    UNRATE: { title: 'İşsizlik Oranı (%)', icon: Users, unit: '%', isRate: true, desc: 'İş arayan ancak iş bulamayan işgücünün yüzdesi. Düşük oranlar sıkı piyasayı ve ücret baskısını işaret eder.' },
+    NFP: { title: 'Tarım Dışı İstihdam Değişimi (Bin Kişi)', icon: Briefcase, unit: 'Bin', isRate: false, desc: 'Aylık istihdam artışını/azalışını gösterir. Tüketici harcamaları ve ekonomik aktivite için en önemli aylık göstergedir.' },
+    JTSJOL: { title: 'İş Açıklığı Sayısı (Milyon)', icon: Briefcase, unit: 'Milyon', isRate: false, desc: 'Açık iş pozisyonu sayısını gösterir. İşgücü talebinin gücünü ve piyasa sıkılığını yansıtır.' },
+    AHE: { title: 'Ortalama Saatlik Kazançlar (Yıllık %)', icon: DollarSign, unit: '%', isRate: true, desc: 'Ücret artışı baskılarını ve potansiyel talebe dayalı enflasyonu izlemek için kritik öneme sahiptir.' },
+    
+    // 4. Faiz Oranları ve Finansal Koşullar
+    DFF: { title: 'Fed Fonları Efektif Oranı (%)', icon: Percent, unit: '%', isRate: true, desc: 'ABD Merkez Bankası\'nın (FED) temel politika faiz hedefinin fiili oranıdır.' },
+    T10Y2Y: { title: '10 Yıllık - 2 Yıllık Faiz Farkı (Baz Puan)', icon: ShieldAlert, unit: 'BP', isRate: false, desc: 'Hazine Getiri Eğrisi farkıdır. Negatif olması (inversiyon) genellikle **resesyonun güçlü bir öncü göstergesi** olarak kabul edilir.' },
+    TEDRATE: { title: 'TED Spread (Risk Primi, Baz Puan)', icon: ShieldAlert, unit: 'BP', isRate: false, desc: 'Bankalararası borçlanma (LIBOR) ile risksiz Hazine bonosu faizi arasındaki farktır. Finansal sistemdeki likidite ve kredi riskini gösterir.' },
+    BAMLH0A0CM: { title: 'Yüksek Getirili Kurumsal Bono Yayı (Baz Puan)', icon: ShieldAlert, unit: 'BP', isRate: false, desc: 'Yatırımcıların riskli şirket tahvillerine olan iştahını ve piyasa likidite koşullarını gösterir.' },
+    MORTGAGE30US: { title: '30 Yıllık Konut Kredisi Faiz Oranı (%)', icon: Home, unit: '%', isRate: true, desc: 'Konut piyasasının ve hanehalkı harcamalarının önemli bir maliyet göstergesidir.' },
+    WM2NS: { title: 'M2 Para Arzı (Trilyon $)', icon: Wallet, unit: 'Trilyon $', isRate: false, desc: 'Dolaşımdaki para ve vadesiz/vadeli mevduatları içeren geniş para tanımı. Uzun vadeli enflasyon dinamikleri için önemlidir.' },
+    DGS10: { title: '10 Yıllık Hazine Tahvili Getirisi (%)', icon: Percent, unit: '%', isRate: true, desc: 'Uzun vadeli borçlanma maliyetleri ve küresel sermaye akışları için temel referans noktasıdır.' },
+    DGS2: { title: '2 Yıllık Hazine Tahvili Getirisi (%)', icon: Percent, unit: '%', isRate: true, desc: 'Kısa vadeli faiz beklentilerini yansıtır. FED politika faizi beklentileri ile yakından ilişkilidir.' },
+};
 
 // --- TÜM VERİ AÇIKLAMALARI ---
 const DEEP_ANALYSIS_INFO = {
@@ -1369,6 +1520,113 @@ const ExpectationRiskTab = () => {
     );
 };
 
+// --- ABD / FRED Veri Sekmesi ---
+const USDataTab = () => {
+    // 20 serinin kodlarını kategorilere ayırarak düzenleyin
+    const categories = [
+        { title: '1. Ekonomik Büyüme ve Aktivite', icon: Factory, keys: ['GDPC1', 'GDI', 'IPHA', 'UMCSENT', 'PERMIT'] },
+        { title: '2. Enflasyon ve Fiyatlar', icon: TrendingUp, keys: ['PCEPI', 'PCEPILFE', 'CPIAUCSL', 'PPIFIS'] },
+        { title: '3. İşgücü Piyasası', icon: Users, keys: ['UNRATE', 'NFP', 'JTSJOL', 'AHE'] },
+        { title: '4. Faiz Oranları ve Finansal Koşullar', icon: Landmark, keys: ['DFF', 'DGS10', 'DGS2', 'T10Y2Y', 'TEDRATE', 'BAMLH0A0CM', 'MORTGAGE30US', 'WM2NS'] },
+    ];
+    
+    return (
+        <div className="space-y-10">
+            <h2 className="text-xl font-bold text-gray-900 border-b pb-2 mb-4 flex items-center">
+                <Globe className="mr-3 text-red-700" /> ABD Ekonomik Verileri (FRED Kaynağı)
+            </h2>
+
+            {categories.map((category, catIndex) => (
+                <div key={catIndex} className="space-y-4 pt-4 border-t border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center">
+                       <category.icon className="mr-2 text-indigo-600" size={18} /> {category.title}
+                    </h3>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {category.keys.map(key => {
+                            const data = FRED_MOCK_DATA[key];
+                            const info = FRED_ANALYSIS_INFO[key];
+                            const isBar = ['NFP', 'PERMIT', 'JTSJOL', 'WM2NS'].includes(key);
+                            const ChartComponent = isBar ? BarChart : LineChart;
+                            const DataComponent = isBar ? Bar : Line;
+                            const strokeColor = category.title.includes('Büyüme') ? '#16a34a' : 
+                                                category.title.includes('Enflasyon') ? '#dc2626' : 
+                                                category.title.includes('İşgücü') ? '#f59e0b' : 
+                                                '#2563eb';
+
+                            // Özel durum: Faiz Farkı (Spread) için ComposedChart
+                            if (key === 'T10Y2Y') {
+                                return (
+                                    <div className="h-[300px]" key={key}>
+                                        <ChartSection dataKey={key} info={info}>
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <LineChart data={data}>
+                                                    <CartesianGrid strokeDasharray="3 3" />
+                                                    <XAxis dataKey="date" tick={{fontSize: 10}} />
+                                                    <YAxis unit="BP" domain={['auto', 'auto']} />
+                                                    <RechartsTooltip formatter={(value) => [`${value.toFixed(2)} BP`]} />
+                                                    <ReferenceLine y={0} stroke="#000" strokeDasharray="5 5" />
+                                                    <Line type="monotone" dataKey="value" name={info.title} stroke="#dc2626" strokeWidth={3} />
+                                                </LineChart>
+                                            </ResponsiveContainer>
+                                        </ChartSection>
+                                    </div>
+                                );
+                            }
+
+                            // Özel durum: Faiz Oranları için Composed Chart (DFF ve DGS2)
+                            if (key === 'DFF') {
+                                const dgs2Data = FRED_MOCK_DATA['DGS2'];
+                                return (
+                                    <div className="h-[300px]" key={key}>
+                                        <ChartSection dataKey={key} info={FRED_ANALYSIS_INFO['DFF']}>
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <ComposedChart data={data}>
+                                                    <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                                                    <XAxis dataKey="date" tick={{fontSize: 10}} />
+                                                    <YAxis unit="%" domain={['auto', 'auto']} />
+                                                    <RechartsTooltip formatter={(value) => [`%${value.toFixed(2)}`]} />
+                                                    <Legend />
+                                                    <Line type="stepAfter" dataKey="value" name={info.title} stroke="#7e22ce" strokeWidth={3} />
+                                                    <Line type="monotone" dataKey="value" data={dgs2Data} name={FRED_ANALYSIS_INFO['DGS2'].title} stroke="#0891b2" strokeWidth={2} dot={false} />
+                                                </ComposedChart>
+                                            </ResponsiveContainer>
+                                        </ChartSection>
+                                    </div>
+                                );
+                            }
+
+
+                            return (
+                                <div className="h-[300px]" key={key}>
+                                    <ChartSection dataKey={key} info={info}>
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <ChartComponent data={data}>
+                                                <CartesianGrid strokeDasharray="3 3" />
+                                                <XAxis dataKey="date" tick={{fontSize: 10}} />
+                                                <YAxis unit={info.unit === '%' ? '%' : info.unit} domain={['auto', 'auto']} />
+                                                <RechartsTooltip formatter={(value) => info.isRate ? [`%${value.toFixed(2)}`, info.title] : [`${value} ${info.unit}`, info.title]} />
+                                                <DataComponent 
+                                                    dataKey="value" 
+                                                    name={info.title} 
+                                                    stroke={strokeColor} 
+                                                    fill={isBar ? strokeColor : 'none'} 
+                                                    strokeWidth={isBar ? 1 : 2}
+                                                    {...(!isBar && { dot: false })} 
+                                                    {...(isBar && { radius: [4, 4, 0, 0] })}
+                                                />
+                                            </ChartComponent>
+                                        </ResponsiveContainer>
+                                    </ChartSection>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
 // Mevcut haritalar ve sabitler
 const DATA_MAP = {
     1: { data: MOCK_DATA.inflation, dataKey: 'value', name: 'Yıllık TÜFE', isRate: true, color: '#dc2626', type: 'line' },
@@ -1554,7 +1812,8 @@ const App = () => {
           <SidebarItem id="indicators" icon={Database} label="Ekonomik Göstergeler" />
           <SidebarItem id="deep_analysis" icon={BarChart2} label="Derin Analiz" />
           <SidebarItem id="expectation_risk" icon={ShieldAlert} label="Beklenti & Risk" />
-          
+          <SidebarItem id="usa_data" icon={Globe} label="ABD (FRED)" />
+
           <div className="px-4 py-2 mt-4">
             <p className="text-xs font-semibold text-gray-400 uppercase">Sektörel Detaylar</p>
           </div>
@@ -1597,6 +1856,7 @@ const App = () => {
               {activeTab === 'banking' && 'Bankacılık Sektörü & Kredi Analizi'}
               {activeTab === 'exchange' && 'Döviz Kurları (Alış)'}
               {activeTab === 'expectation_risk' && 'Piyasa Beklentileri ve Finansal Riskler'}
+              {activeTab === 'usa_data' && 'ABD Makroekonomik Verileri (FRED)'}
               {activeTab === 'about' && 'Proje Hakkında'}
             </h2>
             <p className="text-gray-500 text-sm mt-1">
@@ -1797,6 +2057,8 @@ const App = () => {
 
           {/* Beklenti & Risk Tab - DOLDURULDU */}
           {activeTab === 'expectation_risk' && <ExpectationRiskTab />}
+
+          {activeTab === 'usa_data' && <USDataTab />}
 
           {/* About Tab */}
           {activeTab === 'about' && (
