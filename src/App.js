@@ -423,9 +423,7 @@ const ADDITIONAL_DATA = {
   ],
 };
 
-// --- FRED Mock Verileri (20 Serisi) ---
-// NOT: Bu veriler, Java backend'inizden (FredApiFetcher) çekildikten sonra
-// React'ın kullanabileceği bu basit JS nesnesi yapısına dönüştürülmelidir.
+// --- FRED Mock Verileri (26 Serisi) ---
 const FRED_MOCK_DATA = {
   // 1. Ekonomik Büyüme ve Aktivite
   GDPC1: [
@@ -534,11 +532,42 @@ const FRED_MOCK_DATA = {
     { date: '2024-05', value: 4.50 }, { date: '2024-07', value: 4.30 }, 
     { date: '2024-09', value: 4.00 }, { date: '2024-11', value: 3.85 }
   ],
-  // FED Funds Rate (DFF) ile karşılaştırmak için 2 yıllık Hazine getirisi eklendi (DGS2)
   DGS2: [
     { date: '2024-01', value: 4.38 }, { date: '2024-03', value: 4.60 }, 
     { date: '2024-05', value: 4.92 }, { date: '2024-07', value: 4.45 }, 
     { date: '2024-09', value: 3.90 }, { date: '2024-11', value: 3.60 }
+  ],
+
+  // --- YENİ EKLENEN 6 FRED VERİSİ (Tamamlayıcı) ---
+  HOUST: [
+    { date: '2024-06', value: 1450 }, { date: '2024-07', value: 1430 }, 
+    { date: '2024-08', value: 1400 }, { date: '2024-09', value: 1420 }, 
+    { date: '2024-10', value: 1450 }, { date: '2024-11', value: 1480 }
+  ],
+  NAPM: [
+    { date: '2024-06', value: 49.5 }, { date: '2024-07', value: 48.8 }, 
+    { date: '2024-08', value: 49.0 }, { date: '2024-09', value: 50.1 }, 
+    { date: '2024-10', value: 51.5 }, { date: '2024-11', value: 52.0 }
+  ],
+  RRPFNL: [
+    { date: '2024-06', value: 705.5 }, { date: '2024-07', value: 708.2 }, 
+    { date: '2024-08', value: 709.0 }, { date: '2024-09', value: 712.1 }, 
+    { date: '2024-10', value: 715.5 }, { date: '2024-11', value: 717.0 }
+  ],
+  NFCI: [
+    { date: '2024-06', value: -0.45 }, { date: '2024-07', value: -0.40 }, 
+    { date: '2024-08', value: -0.30 }, { date: '2024-09', value: -0.20 }, 
+    { date: '2024-10', value: -0.15 }, { date: '2024-11', value: -0.25 }
+  ],
+  GFDEBTN: [
+    { date: '2023-Q2', value: 32500 }, { date: '2023-Q3', value: 33000 }, 
+    { date: '2023-Q4', value: 33500 }, { date: '2024-Q1', value: 34000 }, 
+    { date: '2024-Q2', value: 34500 }
+  ],
+  USGOODS: [
+    { date: '2024-06', value: -85000 }, { date: '2024-07', value: -83000 }, 
+    { date: '2024-08', value: -84500 }, { date: '2024-09', value: -82000 }, 
+    { date: '2024-10', value: -80500 }, { date: '2024-11', value: -81000 }
   ],
 };
 
@@ -562,7 +591,7 @@ const FRED_ANALYSIS_INFO = {
     UNRATE: { title: 'İşsizlik Oranı (%)', icon: Users, unit: '%', isRate: true, desc: 'İş arayan ancak iş bulamayan işgücünün yüzdesi. Düşük oranlar sıkı piyasayı ve ücret baskısını işaret eder.' },
     NFP: { title: 'Tarım Dışı İstihdam Değişimi (Bin Kişi)', icon: Briefcase, unit: 'Bin', isRate: false, desc: 'Aylık istihdam artışını/azalışını gösterir. Tüketici harcamaları ve ekonomik aktivite için en önemli aylık göstergedir.' },
     JTSJOL: { title: 'İş Açıklığı Sayısı (Milyon)', icon: Briefcase, unit: 'Milyon', isRate: false, desc: 'Açık iş pozisyonu sayısını gösterir. İşgücü talebinin gücünü ve piyasa sıkılığını yansıtır.' },
-    AHE: { title: 'Ortalama Saatlik Kazançlar (Yıllık %)', icon: DollarSign, unit: '%', isRate: true, desc: 'Ücret artışı baskılarını ve potansiyel talebe dayalı enflasyonu izlemek için kritik öneme sahiptir.' },
+    AHE: { title: 'Ortalama Saatlik Kazançlar (Yıllık %)', icon: DollarSign, unit: '%', isRate: true, desc: 'Ücret artışı baskılarını ve potansiyel talebe dayalı (demand-pull) enflasyonu izlemek için kritik öneme sahiptir.' },
     
     // 4. Faiz Oranları ve Finansal Koşullar
     DFF: { title: 'Fed Fonları Efektif Oranı (%)', icon: Percent, unit: '%', isRate: true, desc: 'ABD Merkez Bankası\'nın (FED) temel politika faiz hedefinin fiili oranıdır.' },
@@ -573,6 +602,14 @@ const FRED_ANALYSIS_INFO = {
     WM2NS: { title: 'M2 Para Arzı (Trilyon $)', icon: Wallet, unit: 'Trilyon $', isRate: false, desc: 'Dolaşımdaki para ve vadesiz/vadeli mevduatları içeren geniş para tanımı. Uzun vadeli enflasyon dinamikleri için önemlidir.' },
     DGS10: { title: '10 Yıllık Hazine Tahvili Getirisi (%)', icon: Percent, unit: '%', isRate: true, desc: 'Uzun vadeli borçlanma maliyetleri ve küresel sermaye akışları için temel referans noktasıdır.' },
     DGS2: { title: '2 Yıllık Hazine Tahvili Getirisi (%)', icon: Percent, unit: '%', isRate: true, desc: 'Kısa vadeli faiz beklentilerini yansıtır. FED politika faizi beklentileri ile yakından ilişkilidir.' },
+
+    // --- 5. Sektörel ve Finansal Derinlik (Yeni Eklenenler) ---
+    HOUST: { title: 'Konut Başlangıçları (Bin Adet)', icon: Home, unit: 'Bin Adet', isRate: false, desc: 'Gelecekteki konut inşaat aktivitesinin öncü göstergesi. Konut sektörü ekonomik sağlığın önemli bir parçasıdır.' },
+    NAPM: { title: 'ISM İmalat PMI Endeksi', icon: Factory, unit: 'Endeks', isRate: false, desc: 'İmalat sektöründeki genel sağlığı gösteren bir öncü anket. 50 üstü büyüme, altı daralma demektir.' },
+    RRPFNL: { title: 'Perakende Satışlar (Milyon $)', icon: ShoppingCart, unit: 'Milyon $', isRate: false, desc: 'Tüketici harcamalarındaki aylık değişimi ölçer. Ekonomik büyümenin en büyük itici gücüdür.' },
+    NFCI: { title: 'Chicago Fed Finansal Koşullar Endeksi', icon: ShieldAlert, unit: 'Endeks', isRate: false, desc: 'Finansal risk, kredi maliyetleri ve kaldıraç seviyelerini tek bir endekste birleştirir. Negatif değer gevşeme, pozitif değer stres demektir.' },
+    GFDEBTN: { title: 'Toplam Federal Kamu Borcu (Milyar $)', icon: Landmark, unit: 'Milyar $', isRate: false, desc: 'ABD federal hükümetinin toplam borç seviyesi. Borcun GSYH\'ye oranı gibi türev göstergeler için önemlidir.' },
+    USGOODS: { title: 'Mal Ticaret Dengesi (Milyon $)', icon: Globe, unit: 'Milyon $', isRate: false, desc: 'ABD\'nin mal ihracatı ve ithalatı arasındaki farktır. Dış ticaret dengesini ve GSYH\'ye etkisini gösterir.' },
 };
 
 // --- TÜM VERİ AÇIKLAMALARI ---
@@ -1522,12 +1559,13 @@ const ExpectationRiskTab = () => {
 
 // --- ABD / FRED Veri Sekmesi ---
 const USDataTab = () => {
-    // 20 serinin kodlarını kategorilere ayırarak düzenleyin
+    // 27 serinin kodlarını kategorilere ayırarak düzenleyin
     const categories = [
         { title: '1. Ekonomik Büyüme ve Aktivite', icon: Factory, keys: ['GDPC1', 'GDI', 'IPHA', 'UMCSENT', 'PERMIT'] },
         { title: '2. Enflasyon ve Fiyatlar', icon: TrendingUp, keys: ['PCEPI', 'PCEPILFE', 'CPIAUCSL', 'PPIFIS'] },
         { title: '3. İşgücü Piyasası', icon: Users, keys: ['UNRATE', 'NFP', 'JTSJOL', 'AHE'] },
         { title: '4. Faiz Oranları ve Finansal Koşullar', icon: Landmark, keys: ['DFF', 'DGS10', 'DGS2', 'T10Y2Y', 'TEDRATE', 'BAMLH0A0CM', 'MORTGAGE30US', 'WM2NS'] },
+        { title: '5. Sektörel ve Finansal Derinlik', icon: Layers, keys: ['HOUST', 'NAPM', 'RRPFNL', 'NFCI', 'GFDEBTN', 'USGOODS'] }, // YENİ KATEGORİ
     ];
     
     return (
@@ -1545,13 +1583,31 @@ const USDataTab = () => {
                         {category.keys.map(key => {
                             const data = FRED_MOCK_DATA[key];
                             const info = FRED_ANALYSIS_INFO[key];
-                            const isBar = ['NFP', 'PERMIT', 'JTSJOL', 'WM2NS'].includes(key);
+                            
+                            // Grafik türünü belirleme
+                            const isBar = ['NFP', 'PERMIT', 'JTSJOL', 'WM2NS', 'HOUST', 'RRPFNL', 'GFDEBTN', 'USGOODS'].includes(key);
                             const ChartComponent = isBar ? BarChart : LineChart;
                             const DataComponent = isBar ? Bar : Line;
-                            const strokeColor = category.title.includes('Büyüme') ? '#16a34a' : 
-                                                category.title.includes('Enflasyon') ? '#dc2626' : 
-                                                category.title.includes('İşgücü') ? '#f59e0b' : 
-                                                '#2563eb';
+
+                            // Renk ataması
+                            let strokeColor;
+                            if (category.title.includes('Büyüme')) {
+                                strokeColor = '#16a34a';
+                            } else if (category.title.includes('Enflasyon')) {
+                                strokeColor = '#dc2626';
+                            } else if (category.title.includes('İşgücü')) {
+                                strokeColor = '#f59e0b';
+                            } else if (category.title.includes('Faiz')) {
+                                strokeColor = '#2563eb';
+                            } else { // Yeni kategori için varsayılan renk
+                                strokeColor = '#06b6d4'; 
+                            }
+                            
+                            // NFCI (Özel Renk)
+                            if (key === 'NFCI') {
+                                strokeColor = '#8b5cf6';
+                            }
+
 
                             // Özel durum: Faiz Farkı (Spread) için ComposedChart
                             if (key === 'T10Y2Y') {
@@ -1573,7 +1629,7 @@ const USDataTab = () => {
                                 );
                             }
 
-                            // Özel durum: Faiz Oranları için Composed Chart (DFF ve DGS2)
+                            // Özel durum: Fed Funds Rate (DFF) ile 2 Yıllık Getiriyi (DGS2) karşılaştırma
                             if (key === 'DFF') {
                                 const dgs2Data = FRED_MOCK_DATA['DGS2'];
                                 return (
@@ -1589,6 +1645,26 @@ const USDataTab = () => {
                                                     <Line type="stepAfter" dataKey="value" name={info.title} stroke="#7e22ce" strokeWidth={3} />
                                                     <Line type="monotone" dataKey="value" data={dgs2Data} name={FRED_ANALYSIS_INFO['DGS2'].title} stroke="#0891b2" strokeWidth={2} dot={false} />
                                                 </ComposedChart>
+                                            </ResponsiveContainer>
+                                        </ChartSection>
+                                    </div>
+                                );
+                            }
+                            
+                             // Özel durum: PMI (NAPM) için Referans Çizgisi (50)
+                            if (key === 'NAPM') {
+                                return (
+                                    <div className="h-[300px]" key={key}>
+                                        <ChartSection dataKey={key} info={info}>
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <LineChart data={data}>
+                                                    <CartesianGrid strokeDasharray="3 3" />
+                                                    <XAxis dataKey="date" tick={{fontSize: 10}} />
+                                                    <YAxis domain={['auto', 'auto']} />
+                                                    <RechartsTooltip />
+                                                    <ReferenceLine y={50} label="Eşik (50)" stroke="#f59e0b" strokeDasharray="3 3" />
+                                                    <Line type="monotone" dataKey="value" name={info.title} stroke={strokeColor} strokeWidth={3} dot={{r: 4}} activeDot={{r: 6}} />
+                                                </LineChart>
                                             </ResponsiveContainer>
                                         </ChartSection>
                                     </div>
