@@ -1,89 +1,60 @@
-// api/update.js
-// Bu dosya veritabanındaki verileri TCMB ve FRED'den çekerek günceller.
-
 const axios = require('axios');
 const { Pool } = require('pg');
 
-// Vercel Serverless Fonksiyonu
-export default async function handler(request, response) {
-    // 1. Ortam Değişkenlerini Kontrol Et
+module.exports = async (request, response) => {
     const DATABASE_URL = process.env.DATABASE_URL;
     const EVDS_API_KEY = process.env.EVDS_API_KEY;
     const FRED_API_KEY = process.env.FRED_API_KEY;
 
-    
     if (!DATABASE_URL || !EVDS_API_KEY || !FRED_API_KEY) {
-        return response.status(500).json({ 
-            error: "Eksik Konfigürasyon", 
-            details: "DATABASE_URL, EVDS_API_KEY veya FRED_API_KEY tanımlanmamış." 
-        });
+        return response.status(500).json({ error: "Eksik Anahtarlar (Env Variables)" });
     }
 
-    // 2. Veritabanı Bağlantısı (Havuz)
     const pool = new Pool({
         connectionString: DATABASE_URL,
-        ssl: { rejectUnauthorized: false } // SSL Bağlantısı (Render/Vercel için gerekli)
+        ssl: { rejectUnauthorized: false }
     });
 
     try {
-        // --- A) TCMB EVDS Verisi Çekme ---
-        // Not: Tarihleri dinamik yapmak istersen burayı geliştirebilirsin.
+        // 1. Tablo Yoksa Oluştur (İlk Çalıştırma İçin)
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS dashboard_data (
+                id SERIAL PRIMARY KEY,
+                source VARCHAR(50) UNIQUE NOT NULL,
+                value NUMERIC,
+                date TIMESTAMP DEFAULT NOW(),
+                meta VARCHAR(100)
+            );
+        `);
+
+        // 2. TCMB Verisi (TP.ZK - Zorunlu Karşılık Örneği)
         const END_DATE = new Date().toISOString().slice(0, 10).replace(/-/g, '-');
-        const seriesCodeEvds = 'TP.ZK'; // Örnek seri
-        const evdsUrl = `https://evds2.tcmb.gov.tr/service/evds/series=${seriesCodeEvds}&startDate=01-01-2024&endDate=${END_DATE}&type=json&key=${EVDS_API_KEY}`;
-
-        console.log("TCMB EVDS'ye istek atılıyor...");
-        const evdsResponse = await axios.get(evdsUrl);
-        const evdsData = evdsResponse.data;
+        const evdsUrl = `https://evds2.tcmb.gov.tr/service/evds/series=TP.ZK&startDate=01-01-2024&endDate=${END_DATE}&type=json&key=${EVDS_API_KEY}`;
         
-        // Veriyi güvenli bir şekilde alalım
-        let evdsValue = null;
-        if (evdsData.items && evdsData.items.length > 0) {
-            evdsValue = evdsData.items[evdsData.items.length - 1].TP_ZK; // Son değeri al
-        }
-
-        if (evdsValue) {
-             // Veritabanına Yazma
+        const evdsRes = await axios.get(evdsUrl);
+        const evdsItem = evdsRes.data.items && evdsRes.data.items[evdsRes.data.items.length - 1];
+        if (evdsItem && evdsItem.TP_ZK) {
             await pool.query(
                 'INSERT INTO dashboard_data (source, value, date) VALUES ($1, $2, NOW()) ON CONFLICT (source) DO UPDATE SET value = $2, date = NOW()',
-                ['EVDS', evdsValue]
+                ['EVDS', evdsItem.TP_ZK]
             );
         }
 
-        // --- B) FRED Verisi Çekme ---
-        const seriesCodeFred = 'GDP'; // Örnek seri
-        const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesCodeFred}&api_key=${FRED_API_KEY}&file_type=json`;
-
-        console.log("FRED'e istek atılıyor...");
-        const fredResponse = await axios.get(fredUrl);
-        const fredData = fredResponse.data;
-
-        let fredValue = null;
-        if (fredData.observations && fredData.observations.length > 0) {
-            fredValue = fredData.observations[fredData.observations.length - 1].value;
-        }
-
-        if (fredValue) {
-            // Veritabanına Yazma
+        // 3. FRED Verisi (GDP Örneği)
+        const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=GDP&api_key=${FRED_API_KEY}&file_type=json`;
+        const fredRes = await axios.get(fredUrl);
+        const fredItem = fredRes.data.observations && fredRes.data.observations[fredRes.data.observations.length - 1];
+        if (fredItem && fredItem.value) {
             await pool.query(
                 'INSERT INTO dashboard_data (source, value, date) VALUES ($1, $2, NOW()) ON CONFLICT (source) DO UPDATE SET value = $2, date = NOW()',
-                ['FRED', fredValue]
+                ['FRED', fredItem.value]
             );
         }
 
-        // --- C) Başarılı Yanıt ---
-        return response.status(200).json({ 
-            success: true, 
-            message: "Veriler başarıyla güncellendi.",
-            updates: { evds: evdsValue, fred: fredValue }
-        });
+        return response.status(200).json({ success: true, message: "Veritabanı ve Tablo Hazır, Veriler Güncellendi!" });
 
     } catch (error) {
-        console.error("Güncelleme Hatası:", error);
+        console.error("Hata:", error);
         return response.status(500).json({ error: error.message });
-    } finally {
-        // İşlem bitince havuzu kapatmaya gerek yok, Vercel yönetir ama
-        // iyi bir pratik olarak burada bağlantıyı serbest bırakabiliriz.
-        // Serverless ortamda pool.end() genelde kullanılmaz, connection timeout beklenir.
     }
-}
+};
