@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "name": "tuik_site",
   "version": "0.1.0",
