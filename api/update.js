@@ -45,11 +45,24 @@ module.exports = async (request, response) => {
         // --- 3. TCMB EVDS Verisi ---
         if (EVDS_API_KEY) {
             try {
-                const END_DATE = new Date().toISOString().slice(0, 10).replace(/-/g, '-');
-                // Header ekleyerek isteği güçlendirelim
-                const evdsUrl = `https://evds2.tcmb.gov.tr/service/evds/series=TP.ZK&startDate=01-01-2024&endDate=${END_DATE}&type=json&key=${EVDS_API_KEY}`;
+                // DÜZELTME 1: Tarih formatı dd-mm-yyyy olmalı
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Aylar 0-11 arasıdır
+                const year = now.getFullYear();
+                const END_DATE = `${day}-${month}-${year}`; // Örn: 19-12-2025
+
+                // DÜZELTME 2: Key parametresini URL'den kaldırdık
+                const evdsUrl = `https://evds2.tcmb.gov.tr/service/evds/series=TP.ZK&startDate=01-01-2024&endDate=${END_DATE}&type=json`;
                 
-                const evdsRes = await axios.get(evdsUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+                // DÜZELTME 3: Key parametresini Header olarak ekledik
+                const evdsRes = await axios.get(evdsUrl, { 
+                    headers: { 
+                        'key': EVDS_API_KEY,
+                        'User-Agent': 'Mozilla/5.0' 
+                    } 
+                });
+
                 const evdsItem = evdsRes.data.items && evdsRes.data.items[evdsRes.data.items.length - 1];
                 
                 if (evdsItem && evdsItem.TP_ZK) {
@@ -59,11 +72,11 @@ module.exports = async (request, response) => {
                     );
                     statusReport.evds = "Başarılı (" + evdsItem.TP_ZK + ")";
                 } else {
-                    statusReport.evds = "Veri Bulunamadı (Boş Yanıt)";
+                    statusReport.evds = "Veri Bulunamadı (Boş Yanıt veya Hatalı Tarih)";
                 }
             } catch (evdsErr) {
                 console.error("EVDS Hatası:", evdsErr.message);
-                statusReport.evds = "HATA (403 ise anahtar yanlış): " + evdsErr.message;
+                statusReport.evds = "HATA: " + evdsErr.message;
                 statusReport.errors.push("EVDS: " + evdsErr.message);
             }
         } else {
